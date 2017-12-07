@@ -55,7 +55,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Chunk.cs" />
+    <Compile Include="EmptyChunk.cs" />
+    <Compile Include="EmptyTaggedChunk.cs" />
+    <Compile Include="Layer.cs" />
+    <Compile Include="Matt.cs" />
+    <Compile Include="Pack.cs" />
+    <Compile Include="Rgba.cs" />
+    <Compile Include="Size.cs" />
+    <Compile Include="TaggedChunk.cs" />
     <Compile Include="VoxFile.cs" />
+    <Compile Include="Xyzi.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
