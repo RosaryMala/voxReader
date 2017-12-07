@@ -52,11 +52,17 @@ namespace voxReader
                 case "MATT":
                     newChunk = new Matt();
                     break;
-                case "MATL":
                 case "nTRN":
+                    newChunk = new Transform();
+                    break;
                 case "nGRP":
-                case "nSHP":
+                    newChunk = new Group();
+                    break;
+                case "MATL":
                     newChunk = new EmptyTaggedChunk();
+                    break;
+                case "nSHP":
+                    newChunk = new Shape();
                     break;
                 case "LAYR":
                     newChunk = new Layer();
