@@ -9,6 +9,7 @@ namespace voxReader
 {
     class Transform : TaggedChunk
     {
+        public string name;
         public int shapeIndex;
         public int unknown;
         public int layer;
@@ -18,6 +19,8 @@ namespace voxReader
 
         public override void ProcessTaggedData(BinaryReader dataReader)
         {
+            if (tags.ContainsKey("_name"))
+                name = tags["_name"];
             shapeIndex = dataReader.ReadInt32();
             unknown = dataReader.ReadInt32();
             layer = dataReader.ReadInt32();
@@ -35,6 +38,11 @@ namespace voxReader
             {
                 numbers.Add(dataReader.ReadInt32());
             }
+        }
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }
