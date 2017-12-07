@@ -59,7 +59,7 @@ namespace voxReader
                     newChunk = new Group();
                     break;
                 case "MATL":
-                    newChunk = new EmptyTaggedChunk();
+                    newChunk = new MaterialNew();
                     break;
                 case "nSHP":
                     newChunk = new Shape();

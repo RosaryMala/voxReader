@@ -59,6 +59,7 @@
     <Compile Include="EmptyTaggedChunk.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Layer.cs" />
+    <Compile Include="MaterialNew.cs" />
     <Compile Include="Matt.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="Rgba.cs" />
