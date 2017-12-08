@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-
-    abstract class WorldChunk : Chunk
+    abstract class RenderChunk : Chunk
     {
-        public int index;
-
         internal override void ProcessData(BinaryReader dataReader)
         {
-            index = dataReader.ReadInt32();
             var tags = StringDict.Decode(dataReader);
             ProcessTaggedData(
                 new BinaryReader(

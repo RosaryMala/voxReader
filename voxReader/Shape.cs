@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-    class Shape : TaggedChunk
+    class Shape : WorldChunk
     {
         List<int> numbers = new List<int>();
-        public override void ProcessTaggedData(BinaryReader dataReader)
+        internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
             while (dataReader.BaseStream.Position < dataReader.BaseStream.Length)
             {

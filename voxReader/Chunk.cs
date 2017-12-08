@@ -16,7 +16,8 @@ namespace voxReader
 
         public List<Chunk> Children = new List<Chunk>();
 
-        public abstract void ProcessData(BinaryReader dataReader);
+        internal abstract void ProcessData(BinaryReader dataReader);
+        internal abstract byte[] ToByteArray();
 
         public void Read(BinaryReader binaryReader, string id)
         {
@@ -67,6 +68,13 @@ namespace voxReader
                 case "LAYR":
                     newChunk = new Layer();
                     break;
+                case "rLIT":
+                case "rAIR":
+                case "rLEN":
+                case "POST":
+                case "rDIS":
+                    newChunk = new EmptyRenderChunk();
+                    break;
                 default:
                     newChunk = new EmptyChunk();
                     break;
@@ -74,11 +82,6 @@ namespace voxReader
             newChunk.Read(binaryReader, id);
 
             return newChunk;
-        }
-
-        public override string ToString()
-        {
-            return ChunkID;
         }
     }
 }

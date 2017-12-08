@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-    class MaterialNew : TaggedChunk
+    class MaterialNew : WorldChunk
     {
         public enum Type
         {
@@ -24,14 +24,32 @@ namespace voxReader
         float ior;
 
         byte[] data;
-        public override void ProcessTaggedData(BinaryReader dataReader)
+        internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
             data = dataReader.ReadBytes((int)dataReader.BaseStream.Length);
-            type = (Type)Enum.Parse(typeof(Type), tags["_type"]);
-            weight = float.Parse(tags["_weight"]);
-            rough = float.Parse(tags["_rough"]);
-            spec = float.Parse(tags["_spec"]);
-            ior = float.Parse(tags["_ior"]);
+            foreach (var tag in tags)
+            {
+                switch (tag.Key)
+                {
+                    case "_type":
+                        type = (Type)Enum.Parse(typeof(Type), tag.Value);
+                        break;
+                    case "_weight":
+                        weight = float.Parse(tag.Value);
+                        break;
+                    case "_rough":
+                        rough = float.Parse(tag.Value);
+                        break;
+                    case "_spec":
+                        spec = float.Parse(tag.Value);
+                        break;
+                    case "_ior":
+                        ior = float.Parse(tag.Value);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
         }
 
         public override string ToString()

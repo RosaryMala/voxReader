@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-    class Layer : WorldChunk
+    class EmptyRenderChunk : RenderChunk
     {
-        public string name;
-        public int x;
+        byte[] data;
+        private Dictionary<string, string> tags;
+
         internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
-            name = tags["_name"];
-            x = dataReader.ReadInt32();
+            data = dataReader.ReadBytes((int)dataReader.BaseStream.Length);
+            this.tags = tags;
         }
     }
 }

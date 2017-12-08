@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-    class Group : TaggedChunk
+    class Group : WorldChunk
     {
         public List<int> contents = new List<int>();
-        public override void ProcessTaggedData(BinaryReader dataReader)
+        internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
             int numItems = dataReader.ReadInt32();
             for (int i = 0; i < numItems; i++)

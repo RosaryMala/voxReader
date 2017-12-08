@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-    class EmptyTaggedChunk : TaggedChunk
+    class EmptyTaggedChunk : WorldChunk
     {
         byte[] data;
+        Dictionary<string, string> tags;
 
-        public override void ProcessTaggedData(BinaryReader dataReader)
+        internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
+            this.tags = tags;
             data = dataReader.ReadBytes((int)dataReader.BaseStream.Length);
         }
     }
