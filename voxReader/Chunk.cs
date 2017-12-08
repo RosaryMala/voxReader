@@ -10,78 +10,57 @@ namespace voxReader
     /// <summary>
     /// Empty Chunk Type. Ignores all data.
     /// </summary>
-    abstract class Chunk
-    {
-        public string ChunkID { get; private set; }
-
+    class Chunk
+    { 
         public List<Chunk> Children = new List<Chunk>();
 
-        internal abstract void ProcessData(BinaryReader dataReader);
-        internal abstract byte[] ToByteArray();
+        IChunkData data;
 
-        public void Read(BinaryReader binaryReader, string id)
-        {
-            ChunkID = id;
-            int dataSize = binaryReader.ReadInt32();
-            int childrenSize = binaryReader.ReadInt32();
-            ProcessData(new BinaryReader(new MemoryStream(binaryReader.ReadBytes(dataSize)), Encoding.ASCII));
-            var dataStart = binaryReader.BaseStream.Position;
-            while(binaryReader.BaseStream.Position < (dataStart + childrenSize))
-            {
-                Children.Add(ReadSingleChunk(binaryReader));
-            }
-        }
-
-        internal static Chunk ReadSingleChunk(BinaryReader binaryReader)
+        internal void Decode(BinaryReader binaryReader)
         {
             string id = new string(binaryReader.ReadChars(4));
-            Chunk newChunk;
+            int dataSize = binaryReader.ReadInt32();
+            int childrenSize = binaryReader.ReadInt32();
             switch (id)
             {
                 case "PACK":
-                    newChunk = new Pack();
-                    break;
-                case "SIZE":
-                    newChunk = new Size();
-                    break;
-                case "XYZI":
-                    newChunk = new Xyzi();
-                    break;
-                case "RGBA":
-                    newChunk = new Rgba();
-                    break;
-                case "MATT":
-                    newChunk = new Matt();
-                    break;
-                case "nTRN":
-                    newChunk = new Transform();
-                    break;
-                case "nGRP":
-                    newChunk = new Group();
-                    break;
-                case "MATL":
-                    newChunk = new MaterialNew();
-                    break;
-                case "nSHP":
-                    newChunk = new Shape();
-                    break;
-                case "LAYR":
-                    newChunk = new Layer();
-                    break;
-                case "rLIT":
-                case "rAIR":
-                case "rLEN":
-                case "POST":
-                case "rDIS":
-                    newChunk = new EmptyRenderChunk();
+                    data = new Pack();
                     break;
                 default:
-                    newChunk = new EmptyChunk();
                     break;
             }
-            newChunk.Read(binaryReader, id);
+            data.FromByteArray(binaryReader.ReadBytes(dataSize));
+            var childrenStart = binaryReader.BaseStream.Position;
+            while (binaryReader.BaseStream.Position < (childrenStart + childrenSize))
+            {
+                Chunk child = new Chunk();
+                child.Decode(binaryReader);
+                Children.Add(child);
+            }
+        }
 
-            return newChunk;
+        internal byte[] ToByteArray()
+        {
+            var dataBytes = data.ToByteArray();
+            List<byte[]> childrenBytes = new List<byte[]>();
+            int childrenSize = 0;
+            foreach (var child in Children)
+            {
+                var childByte = child.ToByteArray();
+                childrenSize += childByte.Length;
+                childrenBytes.Add(childByte);
+            }
+            MemoryStream ms = new MemoryStream();
+            BinaryWriter br = new BinaryWriter(ms);
+            br.Write(data.ChunkID.ToCharArray());
+            br.Write(dataBytes.Length);
+            br.Write(childrenSize);
+            br.Write(dataBytes);
+            foreach (var item in childrenBytes)
+            {
+                br.Write(item);
+            }
+            return ms.ToArray();
         }
     }
 }

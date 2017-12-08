@@ -16,7 +16,8 @@ namespace voxReader
             BinaryReader binaryReader = new BinaryReader(stream, Encoding.ASCII);
             var tag = new string(binaryReader.ReadChars(4));
             var version = binaryReader.ReadInt32();
-            Main = Chunk.ReadSingleChunk(binaryReader);
+            Main = new Chunk();
+            Main.Decode(binaryReader);
             Console.WriteLine(tag);
         }
 
@@ -25,7 +26,7 @@ namespace voxReader
             BinaryWriter binaryWriter = new BinaryWriter(stream, Encoding.ASCII);
             binaryWriter.Write("VOX ".ToCharArray());
             binaryWriter.Write(150);
-            Main.WriteToStream(binaryWriter);
+            binaryWriter.Write(Main.ToByteArray());
         }
     }
 }

@@ -7,13 +7,24 @@ using System.Threading.Tasks;
 
 namespace voxReader
 {
-    class Pack : Chunk
+    class Pack : IChunkData
     {
         public int numModels;
 
-        public override void ProcessData(BinaryReader dataReader)
+        public string ChunkID { get { return "PACK"; } }
+
+        public void FromByteArray(byte[] bytes)
         {
-            numModels = dataReader.ReadInt32();
+            BinaryReader reader = new BinaryReader(new MemoryStream(bytes), Encoding.ASCII);
+            numModels = reader.ReadInt32();
+        }
+
+        public byte[] ToByteArray()
+        {
+            var ms = new MemoryStream();
+            BinaryWriter writer = new BinaryWriter(ms, Encoding.ASCII);
+            writer.Write(numModels);
+            return ms.ToArray();
         }
     }
 }

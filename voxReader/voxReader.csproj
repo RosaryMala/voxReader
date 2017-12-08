@@ -55,10 +55,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Chunk.cs" />
-    <Compile Include="EmptyChunk.cs" />
     <Compile Include="EmptyRenderChunk.cs" />
     <Compile Include="EmptyTaggedChunk.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="IChunkData.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="MaterialNew.cs" />
     <Compile Include="Matt.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="StringDict.cs" />
     <Compile Include="TaggedChunk.cs" />
     <Compile Include="Transform.cs" />
+    <Compile Include="UnknownData.cs" />
     <Compile Include="VoxFile.cs" />
     <Compile Include="Xyzi.cs" />
     <Page Include="MainWindow.xaml">
