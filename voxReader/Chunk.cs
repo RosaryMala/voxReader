@@ -36,6 +36,9 @@ namespace voxReader
                 case "RGBA":
                     data = new Rgba();
                     break;
+                case "nTRN":
+                    data = new Transform();
+                    break;
                 default:
                     data = new UnknownData(id);
                     break;

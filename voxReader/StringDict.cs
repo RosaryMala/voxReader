@@ -23,5 +23,19 @@ namespace voxReader
             }
             return tags;
         }
+
+        public static void Encode(BinaryWriter binaryWriter, Dictionary<string, string> dictionary)
+        {
+            binaryWriter.Write(dictionary.Count);
+            foreach (var item in dictionary)
+            {
+                var key = item.Key.ToCharArray();
+                var value = item.Value.ToCharArray();
+                binaryWriter.Write(key.Length);
+                binaryWriter.Write(key);
+                binaryWriter.Write(value.Length);
+                binaryWriter.Write(value);
+            }
+        }
     }
 }

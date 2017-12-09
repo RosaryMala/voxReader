@@ -11,6 +11,19 @@ namespace voxReader
     {
         public string name;
         public int x;
+
+        public override string ChunkID => throw new NotImplementedException();
+
+        internal override void Encode(BinaryWriter writer)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Dictionary<string, string> GetTags()
+        {
+            throw new NotImplementedException();
+        }
+
         internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
             name = tags["_name"];

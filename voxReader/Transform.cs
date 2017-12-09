@@ -11,13 +11,53 @@ namespace voxReader
     {
         public string name;
         public int shapeIndex;
-        public int unknown;
+        public int unknown = -1;
         public int layer;
-        public int unknown2;
+        public int unknown2 = 1;
+        public bool hidden = false;
 
-        public int? posX, posY, posZ;
+        public class Position
+        {
+            public int x, y, z;
 
-        List<int> numbers = new List<int>();
+            public override string ToString()
+            {
+                return string.Format("{0} {1} {2}", x, y, z);
+            }
+
+            public Position(string source)
+            {
+                var parts = source.Split(' ');
+                if (parts.Length != 3)
+                    throw new InvalidDataException();
+                x = int.Parse(parts[0]);
+                y = int.Parse(parts[1]);
+                z = int.Parse(parts[2]);
+            }
+        }
+
+        public Position position;
+
+        public class Rotation
+        {
+            public int r;
+            public override string ToString()
+            {
+                return r.ToString();
+            }
+
+            public Rotation(string source)
+            {
+                r = int.Parse(source);
+            }
+        }
+
+        public Rotation rotation;
+
+        public override string ChunkID
+        {
+            get { return "nTRN"; }
+        }
 
         internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
@@ -28,6 +68,9 @@ namespace voxReader
                     case "_name":
                         name = tag.Value;
                         break;
+                    case "_hidden":
+                        hidden = tag.Value == "1";
+                        break;
                     default:
                         throw new NotImplementedException();
                 }
@@ -36,34 +79,45 @@ namespace voxReader
             unknown = dataReader.ReadInt32();
             layer = dataReader.ReadInt32();
             unknown2 = dataReader.ReadInt32();
-            int numSubTags = dataReader.ReadInt32();
-            for (int i= 0; i < numSubTags; i++)
+            var subTags = StringDict.Decode(dataReader);
+            foreach (var subTag in subTags)
             {
-                int keyLength = dataReader.ReadInt32();
-                string key = new string(dataReader.ReadChars(keyLength));
-                int valueLength = dataReader.ReadInt32();
-                string value = new string(dataReader.ReadChars(valueLength));
-                switch (key)
+                switch (subTag.Key)
                 {
                     case "_t":
-                        var coords = value.Split(' ');
-                        posX = int.Parse(coords[0]);
-                        posY = int.Parse(coords[1]);
-                        posZ = int.Parse(coords[2]);
+                        position = new Position(subTag.Value);
+                        break;
+                    case "_r":
+                        rotation = new Rotation(subTag.Value);
                         break;
                     default:
                         throw new NotImplementedException();
                 }
             }
-            while (dataReader.BaseStream.Position < dataReader.BaseStream.Length)
-            {
-                numbers.Add(dataReader.ReadInt32());
-            }
         }
 
-        public override string ToString()
+        internal override Dictionary<string, string> GetTags()
         {
-            return name;
+            var tags = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(name))
+                tags["_name"] = name;
+            if (hidden)
+                tags["_hidden"] = "1";
+            return tags;
+        }
+
+        internal override void Encode(BinaryWriter writer)
+        {
+            writer.Write(shapeIndex);
+            writer.Write(unknown);
+            writer.Write(layer);
+            writer.Write(unknown2);
+            var subTags = new Dictionary<string, string>();
+            if (position != null)
+                subTags["_t"] = position.ToString();
+            if (rotation != null)
+                subTags["_r"] = rotation.ToString();
+            StringDict.Encode(writer, subTags);
         }
     }
 }

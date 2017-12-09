@@ -24,6 +24,9 @@ namespace voxReader
         float ior;
 
         byte[] data;
+
+        public override string ChunkID => throw new NotImplementedException();
+
         internal override void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags)
         {
             data = dataReader.ReadBytes((int)dataReader.BaseStream.Length);
@@ -55,6 +58,16 @@ namespace voxReader
         public override string ToString()
         {
             return type.ToString();
+        }
+
+        internal override Dictionary<string, string> GetTags()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override void Encode(BinaryWriter writer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

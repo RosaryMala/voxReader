@@ -61,14 +61,13 @@
     <Compile Include="IChunkData.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="MaterialNew.cs" />
-    <Compile Include="Matt.cs" />
     <Compile Include="Pack.cs" />
     <Compile Include="RenderChunk.cs" />
     <Compile Include="Rgba.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="StringDict.cs" />
-    <Compile Include="TaggedChunk.cs" />
+    <Compile Include="WorldChunk.cs" />
     <Compile Include="Transform.cs" />
     <Compile Include="UnknownData.cs" />
     <Compile Include="VoxFile.cs" />
