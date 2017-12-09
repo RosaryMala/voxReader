@@ -33,6 +33,9 @@ namespace voxReader
                 case "XYZI":
                     data = new Xyzi();
                     break;
+                case "RGBA":
+                    data = new Rgba();
+                    break;
                 default:
                     data = new UnknownData(id);
                     break;

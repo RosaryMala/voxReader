@@ -10,7 +10,7 @@ namespace voxReader
 {
     class VoxFile : IEnumerable<Chunk>
     {
-        public Chunk[] Main;
+        public Chunk Main;
 
         public IEnumerator<Chunk> GetEnumerator()
         {
@@ -22,8 +22,8 @@ namespace voxReader
             BinaryReader binaryReader = new BinaryReader(stream, Encoding.ASCII);
             var tag = new string(binaryReader.ReadChars(4));
             var version = binaryReader.ReadInt32();
-            Main = new Chunk[] { new Chunk() };
-            Main[0].Decode(binaryReader);
+            Main = new Chunk();
+            Main.Decode(binaryReader);
             Console.WriteLine(tag);
         }
 
@@ -32,7 +32,7 @@ namespace voxReader
             BinaryWriter binaryWriter = new BinaryWriter(stream, Encoding.ASCII);
             binaryWriter.Write("VOX ".ToCharArray());
             binaryWriter.Write(150);
-            binaryWriter.Write(Main[0].ToByteArray());
+            binaryWriter.Write(Main.ToByteArray());
         }
 
         IEnumerator IEnumerable.GetEnumerator()
