@@ -27,16 +27,35 @@ namespace voxReader
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
         private void loadButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            if(openFileDialog.ShowDialog() == true)
+            openFileDialog.Filter = "Voxel Files (*.vox)|*.vox|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
             {
                 FileStream fileStream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                 voxFile = new VoxFile();
                 voxFile.ReadStream(fileStream);
+                fileStream.Close();
+            }
+            voxelExplorer.ItemsSource = voxFile.Main;
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Voxel Files (*.vox)|*.vox|All files (*.*)|*.*";
+            if (voxFile != null)
+            {
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    FileStream fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write, FileShare.Write);
+                    voxFile.WriteStream(fileStream);
+                    fileStream.Close();
+                }
             }
         }
     }

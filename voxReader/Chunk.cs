@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace voxReader
     /// <summary>
     /// Empty Chunk Type. Ignores all data.
     /// </summary>
-    class Chunk
+    class Chunk : IEnumerable<Chunk>
     { 
         public List<Chunk> Children = new List<Chunk>();
 
@@ -26,7 +27,14 @@ namespace voxReader
                 case "PACK":
                     data = new Pack();
                     break;
+                case "SIZE":
+                    data = new Size();
+                    break;
+                case "XYZI":
+                    data = new Xyzi();
+                    break;
                 default:
+                    data = new UnknownData(id);
                     break;
             }
             data.FromByteArray(binaryReader.ReadBytes(dataSize));
@@ -61,6 +69,24 @@ namespace voxReader
                 br.Write(item);
             }
             return ms.ToArray();
+        }
+
+        public override string ToString()
+        {
+            if (data != null)
+                return data.ChunkID;
+            else
+                return base.ToString();
+        }
+
+        public IEnumerator<Chunk> GetEnumerator()
+        {
+            return ((IEnumerable<Chunk>)Children).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<Chunk>)Children).GetEnumerator();
         }
     }
 }

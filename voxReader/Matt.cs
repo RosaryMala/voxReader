@@ -36,12 +36,12 @@ namespace voxReader
         }
         public Properties properties;
 
-        public override void ProcessData(BinaryReader dataReader)
-        {
-            id = dataReader.ReadInt32();
-            type = (Type)dataReader.ReadInt32();
-            weight = dataReader.ReadSingle();
-            properties = (Properties)dataReader.ReadInt32();
-        }
+        //public override void ProcessData(BinaryReader dataReader)
+        //{
+        //    id = dataReader.ReadInt32();
+        //    type = (Type)dataReader.ReadInt32();
+        //    weight = dataReader.ReadSingle();
+        //    properties = (Properties)dataReader.ReadInt32();
+        //}
     }
 }

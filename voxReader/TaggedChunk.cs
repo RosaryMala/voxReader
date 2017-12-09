@@ -12,18 +12,18 @@ namespace voxReader
     {
         public int index;
 
-        internal override void ProcessData(BinaryReader dataReader)
-        {
-            index = dataReader.ReadInt32();
-            var tags = StringDict.Decode(dataReader);
-            ProcessTaggedData(
-                new BinaryReader(
-                    new MemoryStream(
-                        dataReader.ReadBytes((int)(dataReader.BaseStream.Length - dataReader.BaseStream.Position))
-                        )
-                    ), tags
-                );
-        }
+        //internal override void ProcessData(BinaryReader dataReader)
+        //{
+        //    index = dataReader.ReadInt32();
+        //    var tags = StringDict.Decode(dataReader);
+        //    ProcessTaggedData(
+        //        new BinaryReader(
+        //            new MemoryStream(
+        //                dataReader.ReadBytes((int)(dataReader.BaseStream.Length - dataReader.BaseStream.Position))
+        //                )
+        //            ), tags
+        //        );
+        //}
 
         internal abstract void ProcessTaggedData(BinaryReader dataReader, Dictionary<string, string> tags);
     }

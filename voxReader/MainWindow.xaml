@@ -12,6 +12,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button x:Name="loadButton" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="loadButton_Click"/>
-        <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" Margin="90,10,0,0" Width="75" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" Margin="90,10,0,0" Width="75" Click="saveButton_Click" Height="20" VerticalAlignment="Top"/>
+        <TreeView x:Name="voxelExplorer" Margin="10,35,10,10">
+        </TreeView>
     </Grid>
 </Window>

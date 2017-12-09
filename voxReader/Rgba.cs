@@ -19,16 +19,16 @@ namespace voxReader
         }
         public Color[] colors;
 
-        public override void ProcessData(BinaryReader dataReader)
-        {
-            colors = new Color[256];
-            for(int i = 0; i < 256; i++)
-            {
-                colors[i].r = dataReader.ReadByte();
-                colors[i].g = dataReader.ReadByte();
-                colors[i].b = dataReader.ReadByte();
-                colors[i].a = dataReader.ReadByte();
-            }
-        }
+        //public override void ProcessData(BinaryReader dataReader)
+        //{
+        //    colors = new Color[256];
+        //    for(int i = 0; i < 256; i++)
+        //    {
+        //        colors[i].r = dataReader.ReadByte();
+        //        colors[i].g = dataReader.ReadByte();
+        //        colors[i].b = dataReader.ReadByte();
+        //        colors[i].a = dataReader.ReadByte();
+        //    }
+        //}
     }
 }
