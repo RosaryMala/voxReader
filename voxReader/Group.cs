@@ -11,7 +11,7 @@ namespace voxReader
     {
         public List<int> contents = new List<int>();
 
-        public override string ChunkID => throw new NotImplementedException();
+        public override string ChunkID { get { return "nGRP"; } }
 
         internal override void Encode(BinaryWriter writer)
         {

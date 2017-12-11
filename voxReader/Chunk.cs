@@ -39,6 +39,9 @@ namespace voxReader
                 case "nTRN":
                     data = new Transform();
                     break;
+                case "nGRP":
+                    data = new Group();
+                    break;
                 default:
                     data = new UnknownData(id);
                     break;
